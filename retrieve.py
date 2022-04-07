@@ -32,12 +32,12 @@ if __name__ == '__main__':
     & end_date = 2012-05-25
     """
 
-    raise NotImplemented("must change API requests")
+    #raise NotImplemented("must change API requests")
 
     now_str = datetime.datetime.now().strftime("%Y%m%d")
     os.mkdir(f"./data/{now_str}")
 
-    for commodity in ["WHEAT", "RUB"]:
+    for commodity in ["USD"]:
         response = get_raw_data(
             endpoint="https://www.commodities-api.com/api/timeseries",
             parameters={
