@@ -48,10 +48,10 @@ def plot_scatter(reformat_data1, reformat_data2):
 
 if __name__ == "__main__":
 
-    with open('data/20220404/raw/WHEAT.json', 'r') as f:
+    with open('../data/20220404/raw/WHEAT.json', 'r') as f:
         wheat_data = json.loads(json.load(f))
 
-    with open('data/20220404/raw/RUB.json', 'r') as f:
+    with open('../data/20220404/raw/RUB.json', 'r') as f:
         rub_data = json.loads(json.load(f))
 
     wheat_reformat_data = reformat_as_time_series(wheat_data, commodities_name="WHEAT")
