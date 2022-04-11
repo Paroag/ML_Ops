@@ -45,9 +45,11 @@ def run_fn(fn_args: tfx.components.FnArgs) -> None:
     ).repeat()
 
     model = create_model()
+    print(train_dataset)
     model.fit(
         train_dataset,
         steps_per_epoch=fn_args.train_steps,
+        epochs=10,
     )
     model.save(fn_args.serving_model_dir, save_format="tf")
 

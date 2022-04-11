@@ -4,6 +4,8 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import numpy as np
 
+from ML_Ops.modeling import create_model
+
 
 def reformat_as_time_series(dic: dict, commodities_name: str):
     return (
@@ -46,16 +48,31 @@ def plot_scatter(reformat_data1, reformat_data2):
     plt.show()
 
 
-if __name__ == "__main__":
-
-    with open('../data/20220404/raw/WHEAT.json', 'r') as f:
+def display_all(date):
+    with open(f"../data/{date}/raw/WHEAT.json", "r") as f:
         wheat_data = json.loads(json.load(f))
-
-    with open('../data/20220404/raw/RUB.json', 'r') as f:
+    with open(f"../data/{date}/raw/RUB.json", "r") as f:
         rub_data = json.loads(json.load(f))
-
     wheat_reformat_data = reformat_as_time_series(wheat_data, commodities_name="WHEAT")
     rub_reformat_data = reformat_as_time_series(rub_data, commodities_name="RUB")
-
     plot(wheat_reformat_data, rub_reformat_data)
     plot_scatter(wheat_reformat_data, rub_reformat_data)
+
+
+if __name__ == "__main__":
+
+    DATE = "20220407"
+    # display_all(DATE)
+
+    """import tensorflow as tf
+    keras_model = tf.keras.models.load_model("../tmp/1649337448/")"""
+    keras_model = create_model()
+    keras_model.summary()
+    tmp = np.array([
+        [0.1],
+        [1]
+    ])
+    print(tmp.shape)
+    print(
+        keras_model.predict(tmp)
+    )

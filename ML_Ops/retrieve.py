@@ -4,6 +4,10 @@ import os
 
 import requests
 
+START_DATE = "2022-04-02"
+END_DATE = "2022-04-06"
+COMMODITIES = ["WHEAT", "USD", "RUB"]
+
 
 def create_url_from_parameters(
         endpoint: str,
@@ -25,28 +29,27 @@ def get_raw_data(
 
 
 if __name__ == '__main__':
-    """
-    https://www.commodities-api.com/api/timeseries
-    ? access_key = API_KEY
-    & start_date = 2012-05-01
-    & end_date = 2012-05-25
-    """
-
-    #raise NotImplemented("must change API requests")
-
     now_str = datetime.datetime.now().strftime("%Y%m%d")
-    os.mkdir(f"./data/{now_str}")
+    try:
+        os.mkdir(f"./data/{now_str}")
+    except FileExistsError:
+        pass
 
-    for commodity in ["USD"]:
+    time_series_endpoint = "https://www.commodities-api.com/api/timeseries"
+
+    for commodity in COMMODITIES:
+        time_series_parameters = {
+            "start_date": START_DATE,
+            "end_date": END_DATE,
+            "symbols": commodity,
+            "base": "EUR",
+        }
         response = get_raw_data(
-            endpoint="https://www.commodities-api.com/api/timeseries",
-            parameters={
-                'start_date': '2021-04-15',
-                'end_date': '2022-04-01',
-                'symbols': commodity,
-                'base': 'EUR',
-            }
+            endpoint=time_series_endpoint,
+            parameters=time_series_parameters,
         )
         a = json.loads(response.content)
-        with open(f'./data/{now_str}/{commodity}.json', 'w') as f:
+        with open(f"./data/{now_str}/raw/{commodity}.json", "w") as f:
             json.dump(json.dumps(a), f)
+        with open(f"./data/{now_str}/info.txt", "a") as f:
+            f.write(create_url_from_parameters(endpoint=time_series_endpoint, parameters=time_series_parameters) + "\n")

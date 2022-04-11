@@ -1,4 +1,4 @@
-from utils import merge_nested
+from utils.utils import merge_nested
 
 
 def test_merge_nested():
